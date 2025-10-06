@@ -1,0 +1,60 @@
+:root {
+--ease-spring: cubic-bezier(.2,.8,.2,1);
+--ease-snap: cubic-bezier(.22,.61,.36,1);
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+.anim-slide-up {
+opacity: 0;
+transform: translateY(8px) scale(.98);
+will-change: transform, opacity;
+transition:
+opacity .5s var(--ease-snap),
+transform .5s var(--ease-snap);
+}
+.anim-slide-up.inview {
+opacity: 1;
+transform: translateY(0) scale(1);
+}
+
+
+.anim-pop {
+transform: translateZ(0) scale(1);
+transition: transform .14s var(--ease-spring), box-shadow .18s;
+}
+.anim-pop:hover { transform: translateY(-1px) scale(1.02); }
+.anim-pop:active { transform: translateY(0) scale(.98); }
+
+
+@keyframes float-orb {
+0% { transform: translateY(0) translateX(0) scale(1); }
+50% { transform: translateY(-18px) translateX(8px) scale(1.02); }
+100% { transform: translateY(0) translateX(0) scale(1); }
+}
+
+
+@keyframes shimmer {
+0% { background-position: -120% 0; }
+100% { background-position: 220% 0; }
+}
+
+
+.shimmer {
+background-image: linear-gradient(90deg,
+rgba(255,255,255,0), rgba(255,255,255,.06), rgba(255,255,255,0));
+background-size: 200% 100%;
+animation: shimmer 2.2s linear infinite;
+}
+}
+
+
+/* Accessibility guard: when user prefers reduced motion, keep it subtle */
+@media (prefers-reduced-motion: reduce) {
+.anim-slide-up { opacity: 1; transform: none; }
+.anim-pop, .anim-pop:hover, .anim-pop:active { transform: none; }
+}
+
+
+/* utility for stagger via inline style="--stagger: <ms>" */
+.anim-stagger { transition-delay: var(--stagger, 0ms); }
